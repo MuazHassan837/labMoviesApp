@@ -5,9 +5,11 @@ import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import HomeIcon from "@mui/icons-material/Home";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { red } from "@mui/material/colors";
 
 const styles = {
-    root: {  
+  root: {
     display: "flex",
     justifyContent: "space-around",
     alignItems: "center",
@@ -28,11 +30,17 @@ const MovieHeader = (props) => {
       <Typography variant="h4" component="h3">
         {movie.title}{"   "}
         <a href={movie.homepage}>
-          <HomeIcon color="primary"  fontSize="='large"/>
+          <HomeIcon color="primary" fontSize="='large" />
         </a>
         <br />
         <span>{`${movie.tagline}`} </span>
       </Typography>
+
+      {movie.favourite && (
+        <IconButton aria-label="favorite" sx={{ bgcolor: red[500] }}>
+          <FavoriteIcon fontSize="large" sx={{ color: "white" }} />
+        </IconButton>
+      )}
       <IconButton aria-label="go forward">
         <ArrowForwardIcon color="primary" fontSize="large" />
       </IconButton>

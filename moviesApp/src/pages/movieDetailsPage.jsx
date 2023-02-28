@@ -1,9 +1,12 @@
-import React from "react";
 import MovieHeader from "../components/headerMovie/";
 import MovieDetails from "../components/movieDetails/";
 import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
+import { getMovie, getMovieImages } from "../api/tmdb-api";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+
 
 const styles = {
   imageListRoot: {
@@ -14,8 +17,23 @@ const styles = {
 };
 
 const MoviePage = (props) => {
-  const movie = props.movie;
-  const images = props.images;
+  const { id } = useParams();
+  const [movie, setMovie] = useState(null);
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    getMovie(id).then((movie) => {
+      setMovie(movie);
+    });
+  }, [id]);
+
+  useEffect(() => {
+    getMovieImages(id).then((images) => {
+      setImages(images);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
 
   return (
     <>
@@ -32,10 +50,10 @@ const MoviePage = (props) => {
                       sx={styles.gridListTile}
                       cols={1}
                     >
-                     <img
-                        src={`https://image.tmdb.org/t/p/w500/${image}`}
-                        alt={'Image alternative'}
-                      />                    
+                      <img
+                        src={`https://image.tmdb.org/t/p/w500/${image.file_path}`}
+                        alt={image.file_path}
+                      />
                     </ImageListItem>
                   ))}
                 </ImageList>
