@@ -16,10 +16,16 @@ const styles = {
     flexWrap: "wrap",
     padding: 1.5,
   },
+  avatar: {
+    backgroundColor: "rgb(255, 0, 0)",
+  },
 };
+
 
 const MovieHeader = (props) => {
   const movie = props.movie;
+  const localFav = JSON.parse(localStorage.getItem("favourites"));
+  const isMovieFav = localFav.some((movie) => movie.id === movie.id);
 
   return (
     <Paper component="div" sx={styles.root}>
@@ -36,11 +42,13 @@ const MovieHeader = (props) => {
         <span>{`${movie.tagline}`} </span>
       </Typography>
 
-      {movie.favourite && (
-        <IconButton aria-label="favorite" sx={{ bgcolor: red[500] }}>
-          <FavoriteIcon fontSize="large" sx={{ color: "white" }} />
+      {isMovieFav ? (
+        <IconButton aria-label="is fav" sx={styles.avatar}>
+          <FavoriteIcon color="primary" fontSize="large" />
         </IconButton>
-      )}
+      ) : null}
+
+
       <IconButton aria-label="go forward">
         <ArrowForwardIcon color="primary" fontSize="large" />
       </IconButton>
