@@ -26,8 +26,8 @@ const styles = {
   },
   fab: { 
     position: "fixed",
-    top: 50,
-    right: 2,
+    top: 450,
+    right: 20,
   },
 };
 
@@ -55,14 +55,14 @@ const MovieDetails = ( {movie}) => {
         ))}
       </Paper>
       <Paper component="ul" sx={styles.chipSet}>
-        <Chip icon={<AccessTimeIcon />} label={`${movie.runtime} min.`} />
+        <Chip icon={<AccessTimeIcon />} label={`${movie.runtime} min`} />
         <Chip
           icon={<MonetizationIcon />}
           label={`${movie.revenue.toLocaleString()}`}
         />
         <Chip
           icon={<StarRate />}
-          label={`${movie.vote_average} (${movie.vote_count}`}
+          label={`${movie.vote_average} (${movie.vote_count})`}
         />
         <Chip label={`Released: ${movie.release_date}`} />
       </Paper>

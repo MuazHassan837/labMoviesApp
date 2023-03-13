@@ -1,22 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import PageTemplate from '../components/templateMovieListPage'
-import { getMovies, getUpComingMovies } from "../api/tmdb-api";
+import Spinner from "../components/spinner";
+import { getUpComingMovies } from "../api/tmdb-api";
+import { useQuery } from "react-query";
+import AddToMustWatch from '../components/cardIcons/addToMustWatch'
 
 const UpcomingPage = (props) => {
-    const [movies, setMovies] = useState([]);
-    
-    useEffect(() => {
-        getUpComingMovies().then(comingMovies => {
-            setMovies(comingMovies)
-        });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[]); 
+    const { data, error, isLoading, isError } = useQuery("upcoming", getUpComingMovies);
+
+    if (isLoading) {
+        return <Spinner />;
+    }
+
+    if (isError) {
+        return <h1>{error.message}</h1>;
+    }
+
+    const movies = data ? data.results : [];
 
     return (
-        <PageTemplate 
-        title= 'Upcoming Movies'
+        <PageTemplate
+        title="Upcoming Movies"
         movies={movies}
-        />
+        action={(movie) => {
+          return <AddToMustWatch movie={movie} />
+        }}
+      />
     )
 };
 export default UpcomingPage

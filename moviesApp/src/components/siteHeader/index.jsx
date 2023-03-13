@@ -51,7 +51,7 @@ const SiteHeader = () => {
       <AppBar sx={styles.appbar} position="fixed" elevation={0} color="primary">
         <Toolbar>
           <Typography variant="h4" sx={styles.title}>
-            TMDB Client
+            Movie Hub
           </Typography>
           <Typography variant="h6" sx={styles.title}>
             All you ever wanted to know about Movies!
