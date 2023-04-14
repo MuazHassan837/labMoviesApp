@@ -24,14 +24,14 @@ const styles = {
   chipLabel: {
     margin: 0.5,
   },
-  fab: { 
+  fab: {
     position: "fixed",
     top: 450,
     right: 20,
   },
 };
 
-const MovieDetails = ( {movie}) => {
+const MovieDetails = ({ movie }) => {
   const [drawerOpen, setDrawerOpen] = useState(false); // New
 
   return (
@@ -50,26 +50,29 @@ const MovieDetails = ( {movie}) => {
         </li>
         {movie.genres.map((g) => (
           <li key={g.name}>
-            <Chip label={g.name}  />
+            <Chip label={g.name} />
           </li>
         ))}
       </Paper>
       <Paper component="ul" sx={styles.chipSet}>
-        <Chip icon={<AccessTimeIcon />} label={`${movie.runtime} min`} />
+        <Chip
+          icon={<AccessTimeIcon />}
+          label={`${Math.floor(movie.runtime / 60)}h ${movie.runtime % 60}m`}
+        />
         <Chip
           icon={<MonetizationIcon />}
-          label={`${movie.revenue.toLocaleString()}`}
+          label={`$${(movie.revenue / 1000000).toFixed(2)}M`}
         />
         <Chip
           icon={<StarRate />}
-          label={`${movie.vote_average} (${movie.vote_count})`}
+          label={`${movie.vote_average.toFixed(1)} (${movie.vote_count})`}
         />
         <Chip label={`Released: ${movie.release_date}`} />
       </Paper>
-      <Fab    
+      <Fab
         color="secondary"
         variant="extended"
-        onClick={() =>setDrawerOpen(true)}
+        onClick={() => setDrawerOpen(true)}
         sx={styles.fab}
       >
         <NavigationIcon />
@@ -81,4 +84,4 @@ const MovieDetails = ( {movie}) => {
     </>
   );
 };
-export default  MovieDetails ;
+export default MovieDetails;

@@ -9,7 +9,7 @@ import MovieFilterUI, { titleFilter } from "../components/movieFilterUI";
 import RemoveFromFavourites from "../components/cardIcons/removeFromFavourites";
 import WriteReview from "../components/cardIcons/writeReview";
 
-const titleFiltering = {
+export const titleFiltering = {
   name: "title",
   value: "",
   condition: titleFilter,

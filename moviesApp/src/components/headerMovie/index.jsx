@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Paper from "@mui/material/Paper";
@@ -6,7 +7,9 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import HomeIcon from "@mui/icons-material/Home";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { red } from "@mui/material/colors";
+import Avatar from "@mui/material/Avatar";
+
+import { MoviesContext } from "../../contexts/moviesContext";
 
 const styles = {
   root: {
@@ -24,34 +27,27 @@ const styles = {
 
 const MovieHeader = (props) => {
   const movie = props.movie;
-  const localFav = JSON.parse(localStorage.getItem("favourites"));
-  const isMovieFav = localFav.some((movie) => movie.id === movie.id);
+  const { favourites } = useContext(MoviesContext);
+  const isMovieFav = favourites.some((currMovie) => currMovie === movie.id);
 
   return (
     <Paper component="div" sx={styles.root}>
-      <IconButton aria-label="go back">
-        <ArrowBackIcon color="primary" fontSize="large" />
-      </IconButton>
 
-      <Typography variant="h4" component="h3">
-        {movie.title}{"   "}
+      <Typography variant="h4" component="h3" >
         <a href={movie.homepage}>
-          <HomeIcon color="primary" fontSize="='large" />
+          <HomeIcon color="primary" fontSize="large" />
         </a>
+        <span>{`${movie.title}`}</span>
         <br />
-        <span>{`${movie.tagline}`} </span>
+        <span>{`${movie.tagline}`}</span>
       </Typography>
 
       {isMovieFav ? (
-        <IconButton aria-label="is fav" sx={styles.avatar}>
-          <FavoriteIcon color="primary" fontSize="large" />
-        </IconButton>
+        <Avatar sx={styles.avatar}>
+          <FavoriteIcon />
+        </Avatar>
       ) : null}
 
-
-      <IconButton aria-label="go forward">
-        <ArrowForwardIcon color="primary" fontSize="large" />
-      </IconButton>
     </Paper>
   );
 };

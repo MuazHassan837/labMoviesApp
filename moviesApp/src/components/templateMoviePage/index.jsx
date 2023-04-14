@@ -1,4 +1,4 @@
-import React from "react";  
+import React from "react";
 import MovieHeader from "../headerMovie";
 import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
@@ -21,7 +21,7 @@ const styles = {
 };
 
 const TemplateMoviePage = ({ movie, children }) => {
-  const { data , error, isLoading, isError } = useQuery(
+  const { data, error, isLoading, isError } = useQuery(
     ["images", { id: movie.id }],
     getMovieImages
   );
@@ -33,7 +33,7 @@ const TemplateMoviePage = ({ movie, children }) => {
   if (isError) {
     return <h1>{error.message}</h1>;
   }
-  const images = data.posters 
+  const images = data.posters
 
   return (
     <>
@@ -43,18 +43,11 @@ const TemplateMoviePage = ({ movie, children }) => {
         <Grid item xs={3}>
           <div sx={styles.gridListRoot}>
             <ImageList cols={1}>
-              {images.map((image) => (
-                <ImageListItem
-                  key={image.file_path}
-                  sx={styles.gridListTile}
-                  cols={1}
-                >
-                  <img
-                    src={`https://image.tmdb.org/t/p/w500/${image.file_path}`}
-                    alt={image.poster_path}
-                  />
+              {images.length > 0 && (
+                <ImageListItem key={images[0].file_path} sx={styles.gridListTile} cols={1}>
+                  <img src={`https://image.tmdb.org/t/p/w500/${images[0].file_path}`} alt={images[0].poster_path} />
                 </ImageListItem>
-              ))}
+              )}
             </ImageList>
           </div>
         </Grid>

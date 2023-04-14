@@ -14,12 +14,13 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 
 const styles = {
   title: {
-    flexGrow: 1,
+    flexGrow: 10,
+    color: "#93F769" 
   },
   appbar: {
-    // background: 'none',
+    color: "#AEA99D" ,
+    backgroundColor: "#373B38"
   },
-  // offset: theme.mixins.toolbar,
 };
 
 const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
@@ -34,8 +35,9 @@ const SiteHeader = () => {
   const menuOptions = [
     { label: "Home", path: "/" },
     { label: "Favorites", path: "/movies/favourites" },
-    { label: "Upcoming", path: "/movies/upcoming" },
-    { label: "Option 4", path: "/" },
+    { label: "Watchlist", path: "/movies/upcoming" },
+    { label: "Login", path: "/login" },
+    { label: "Signout", path: "/signout" },
   ];
 
   const handleMenuSelect = (pageURL) => {
@@ -54,7 +56,7 @@ const SiteHeader = () => {
             Movie Hub
           </Typography>
           <Typography variant="h6" sx={styles.title}>
-            All you ever wanted to know about Movies!
+            Experience the magic of cinema, one movie at a time!
           </Typography>
           {isMobile ? (
             <>

@@ -5,19 +5,22 @@ import MovieList from "../movieList";
 
 const styles = {
   root: {
-    backgroundColor: "#bfbfbf",
+    backgroundColor: "#373B38",
   }
 };
 
-function MovieListPageTemplate({ movies, title, action }) {
+function MovieListPageTemplate({ movies, title, handleClick, action }) {
   return (
     <Grid container sx={styles.root}>
+
       <Grid item xs={12}>
-        <Header title={title} />
+        <Header title={title} handleClick={handleClick}  />
       </Grid>
+
       <Grid item container spacing={2}>
         <MovieList action={action} movies={movies} />
       </Grid>
+      
     </Grid>
   );
 }

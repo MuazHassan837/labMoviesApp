@@ -9,10 +9,21 @@ import Paper from "@mui/material/Paper";
 import { Link } from "react-router-dom";
 import { getMovieReviews } from "../../api/tmdb-api";
 import { excerpt } from "../../util";
+import Typography from "@mui/material/Typography";
 
 const styles = {
   table: {
-    minWidth: 550,
+    minWidth: 650,
+  },
+  header: {
+    fontWeight: "bold",
+    color: "#333",
+  },
+  excerpt: {
+    maxWidth: 500,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
   },
 };
 
@@ -31,9 +42,13 @@ export default function MovieReviews({ movie }) {
       <Table sx={styles.table} aria-label="reviews table">
         <TableHead>
           <TableRow>
-            <TableCell >Author</TableCell>
-            <TableCell align="center">Excerpt</TableCell>
-            <TableCell align="right">More</TableCell>
+            <TableCell sx={styles.header}>Author</TableCell>
+            <TableCell align="center" sx={styles.header}>
+              Excerpt
+            </TableCell>
+            <TableCell align="right" sx={styles.header}>
+              More
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -42,8 +57,8 @@ export default function MovieReviews({ movie }) {
               <TableCell component="th" scope="row">
                 {r.author}
               </TableCell>
-              <TableCell >{excerpt(r.content)}</TableCell>
-              <TableCell >
+              <TableCell sx={styles.excerpt}>{excerpt(r.content)}</TableCell>
+              <TableCell>
                 <Link
                   to={`/reviews/${r.id}`}
                   state={{
@@ -51,7 +66,7 @@ export default function MovieReviews({ movie }) {
                     movie: movie,
                   }}
                 >
-                  Full Review
+                  <Typography variant="button">Full Review</Typography>
                 </Link>
               </TableCell>
             </TableRow>
