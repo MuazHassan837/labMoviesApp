@@ -6,11 +6,11 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 
 const AddToFavouritesIcon = ({ movie }) => {
   const context = useContext(MoviesContext);
-  const { user } = useContext(UserContext);
+  const { isAuthenticated  } = useContext(UserContext);
 
   const onUserSelect = (e) => {
     e.preventDefault();
-    if (user !== "") {
+    if ( isAuthenticated ) {
       context.addToFavourites(movie);
     }
   };

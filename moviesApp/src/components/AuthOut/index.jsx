@@ -6,7 +6,7 @@ import { UserContext } from '../../contexts/userContext';
 
 const SignOut = () => {
     const navigate = useNavigate();
-    const { user, setUser } = useContext(UserContext);
+    const { setIsAuthenticated , setUser } = useContext(UserContext);
 
     useEffect(() => {
         handleSignOut();
@@ -18,6 +18,7 @@ const SignOut = () => {
             console.log(error);
             createSwal(error.message, 'error');
         } else {
+            setTimeout(() => setIsAuthenticated(false), 100);
             setUser("");
             navigate('/');
             createSwal('Successful', 'success');

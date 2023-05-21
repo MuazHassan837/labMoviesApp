@@ -2,7 +2,7 @@ export const getMovies = (args) => {
   const [, idPart] = args.queryKey;
   const { id } = idPart;
   return fetch(
-    `https://api.themoviedb.org/3/discover/movie?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${id}`
+    `/api/movies?page=${id}`
   ).then((response) => {
     if (!response.ok) {
       throw new Error(response.json().message);
@@ -18,7 +18,7 @@ export const getUpComingMovies = (args) => {
   const [, idPart] = args.queryKey;
   const { id } = idPart;
   return fetch(
-    `https://api.themoviedb.org/3/movie/upcoming?api_key=${import.meta.env.VITE_TMDB_KEY}&language=en-US&include_adult=false&include_video=false&page=${id}`
+    `/api/movies/upcoming?page=${id}`
   ).then((response) => {
     if (!response.ok) {
       throw new Error(response.json().message);
@@ -30,18 +30,33 @@ export const getUpComingMovies = (args) => {
  });
 };
 
-
 export const getMovie = (args) => {
-  // console.log(args)
   const [, idPart] = args.queryKey;
   const { id } = idPart;
   return fetch(
-    `https://api.themoviedb.org/3/movie/${id}?api_key=${import.meta.env.VITE_TMDB_KEY}`
+    `/api/movies/${id}`
   ).then((response) => {
     if (!response.ok) {
       throw new Error(response.json().message);
     }
     return response.json();
+  })
+  .catch((error) => {
+    throw error
+ });
+};
+
+export const getMovieImages = ({ queryKey }) => {
+  const [, idPart] = queryKey;
+  const { id } = idPart;
+  return fetch(
+    `/api/movies/image/${id}`
+  ).then( (response) => {
+    if (!response.ok) {
+      throw new Error(response.json().message);
+    }
+    return response.json();
+
   })
   .catch((error) => {
     throw error
@@ -50,9 +65,7 @@ export const getMovie = (args) => {
 
 export const getGenres = async () => {
   return fetch(
-    "https://api.themoviedb.org/3/genre/movie/list?api_key=" +
-      import.meta.env.VITE_TMDB_KEY +
-      "&language=en-US"
+    "/api/genres"
   ).then( (response) => {
     if (!response.ok) {
       throw new Error(response.json().message);
@@ -64,29 +77,126 @@ export const getGenres = async () => {
  });
 };  
 
-export const getMovieImages = ({ queryKey }) => {
-  const [, idPart] = queryKey;
-  const { id } = idPart;
-  return fetch(
-    `https://api.themoviedb.org/3/movie/${id}/images?api_key=${import.meta.env.VITE_TMDB_KEY}`
-  ).then( (response) => {
-    if (!response.ok) {
-      throw new Error(response.json().message);
-    }
-    return response.json();
-
-  })
-  .catch((error) => {
-    throw error
- });
-};
 export const getMovieReviews = (id) => {
   return fetch(
-    `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${import.meta.env.VITE_TMDB_KEY}`
+    `/api/reviews/${id}`
   )
     .then((res) => res.json())
     .then((json) => {
-      // console.log(json.results);
       return json.results;
     });
 };
+
+export const signup = (email, password) => {
+  return fetch('/api/accounts', {
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      method: 'post',
+      body: JSON.stringify({ email: email, password: password})
+  }).then(res => res.json())
+};
+
+export const login = (email, password) => {
+  return fetch('/api/accounts/security/token', {
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      method: 'post',
+      body: JSON.stringify({ email: email, password: password })
+  }).then(res => res.json())
+};
+
+export const checkForId = (email) => {
+  return fetch(
+    `/api/accounts/email/${email}`
+  )
+    .then((res) => res.json())
+};
+
+export const addToFavouritesAPI = async (movieId, id) => {
+  try {
+    const response = await fetch(`/api/accounts/${id}/favourites`, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'post',
+      body: JSON.stringify({ movieId: movieId })
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const addToWatchlistAPI = async (movieId, id) => {
+  try {
+    const response = await fetch(`/api/accounts/${id}/watchlist`, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      method: 'post',
+      body: JSON.stringify({ movieId: movieId })
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const DeleteFromFavouritesAPI = async (movieId, id) => {
+  try {
+    const response = await fetch(`/api/accounts/${id}/favourites?movieId=${movieId}`, {
+      method: 'delete'
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const DeleteFromWatchlistAPI = async (movieId, id) => {
+  try {
+    const response = await fetch(`/api/accounts/${id}/watchlist?movieId=${movieId}`, {
+      method: 'delete'
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const GetFavouritesAPI = async (id, token) => {
+  try {
+    const response = await fetch(`/api/accounts/${id}/favourites`, {
+      headers: {
+        'token' : `${token}`
+      },
+      method: 'get'
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const GetWatchlistAPI = async (id, token) => {
+  try {
+    const response = await fetch(`/api/accounts/${id}/watchlist`, {
+      headers: {
+        'token' : `${token}`
+      },
+      method: 'get'
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+

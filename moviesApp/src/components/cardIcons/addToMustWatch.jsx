@@ -6,11 +6,11 @@ import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
 const AddToMustWatch = ({ movie }) => {
   const context = useContext(MoviesContext);
-  const { user } = useContext(UserContext);
+  const { isAuthenticated } = useContext(UserContext);
 
   const onUserSelect = (e) => {
     e.preventDefault();
-    if (user !== "") {
+    if (isAuthenticated) {
       context.addToWatchList(movie)
     }
   };
